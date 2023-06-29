@@ -33,8 +33,8 @@ stages{
                     steps {
                                         sshagent(credentials: ['26c29081-8ed6-4b51-8da9-31ae6673ab62']) {
                     sh 'ssh root@tomcat-server "sudo systemctl stop tomcat"'
-                    sh 'ssh root@tomcat-server "rm -rf /opt/tomcat/webapps/jenkins"'
-                    sh 'scp /opt/tomact/webapps/jenkins.war root@tomcat-server:/opt/tomcat/webapps'
+                    sh 'ssh root@tomcat-server "rm -rf /opt/tomcat/webapps/sample"'
+                    sh 'scp /opt/tomact/webapps/sample.war root@tomcat-server:/opt/tomcat/webapps'
                     sh 'ssh root@tomcat-server "sudo systemctl start tomcat"
 
                     }
