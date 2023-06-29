@@ -6,7 +6,7 @@ pipeline {
           jdk 'localJDK'
     }
     parameters {
-         string(name: 'tomcat_staging', defaultValue: '13.232.119.32', description: 'Staging Server')
+         string(name: 'tomcat_staging', defaultValue: '13.232.204.89', description: 'Staging Server')
          //string(name: 'tomcat_prod', defaultValue: '13.57.204.205', description: 'Production Server')
     }
 
@@ -31,7 +31,12 @@ stages{
             parallel{
                 stage ('Deploy to Staging environment'){
                     steps {
-                        bat "echo y | pscp -i var\\lib\\jenkins\\workspace\\mavenbuild\\webapp\\target\\*.war ubuntu@${params.tomcat_staging}:/opt/tomcat8/webapps"
+                                        sshagent(credentials: ['26c29081-8ed6-4b51-8da9-31ae6673ab62']) {
+                    sh 'ssh root@tomcat-server "sudo systemctl stop tomcat"'
+                    sh 'ssh root@tomcat-server "rm -rf /path/to/tomcat/webapps/your-app"'
+                    sh 'scp /path/to/your-app.war root@tomcat-server:/path/to/tomcat/webapps'
+                    sh 'ssh root@tomcat-server "sudo systemctl start tomcat"
+
                     }
                 }
 
