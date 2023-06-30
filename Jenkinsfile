@@ -31,18 +31,18 @@ pipeline {
       }
     }
 
-    stage('Verify') {
-      steps {
+    //stage('Verify') {
+      //steps {
         // Perform additional verification or integration tests
-        sh 'curl http://your-app-url'
+        //sh 'curl http://your-app-url'
       }
     }
 
     //stage('Deploy to Production') {
       // Run this stage only if the previous stages were successful
-      when {
-        expression {
-          currentBuild.result == 'SUCCESS'
+      //when {
+        //expression {
+          //currentBuild.result == 'SUCCESS'
         }
       }
 
@@ -56,7 +56,7 @@ pipeline {
   //post {
     //always {
       // Archive your build artifacts
-      archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+      //archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
     }
 
     //success {
