@@ -25,7 +25,7 @@ pipeline {
         sh sshagent(credentials: ['27b86657-ba75-4b78-9ad6-8a9146bfbb3a']) {
                     sh 'ssh root@tomcat-server "sudo systemctl stop tomcat"'
                     sh 'ssh root@tomcat-server "rm -rf /opt/tomcat/webapps/SAMPLE"'
-                    sh 'scp /var/lib/jenkins/workspace/SAMPLE/target/webapp/webapp.war root@tomcat-server:/opt/tomcat/webapps'
+                    sh 'scp /var/lib/jenkins/workspace/SAMPLE/target/webapp/webapp.war root@tomcat-server:/opt/tomcat/webapps/SAMPLE'
                     sh 'ssh root@tomcat-server "sudo systemctl start tomcat"'
                     ssh -oStrictHostKeyChecking=no host
 
