@@ -1,51 +1,72 @@
 pipeline {
-    agent any
+  agent any
 
-    tools {
-          maven 'localMaven'
-          jdk 'localJDK'
+  stages {
+    stage('Build') {
+      steps {
+        // Checkout source code from version control
+        checkout scm
+
+        // Build your project (e.g., Maven, Gradle)
+        sh 'mvn clean package'
+      }
     }
-    parameters {
-         string(name: 'tomcat_staging', defaultValue: '13.232.204.89', description: 'Staging Server')
-         //string(name: 'tomcat_prod', defaultValue: '13.57.204.205', description: 'Production Server')
+
+    stage('Test') {
+      steps {
+        // Run your tests (e.g., JUnit, Selenium)
+        sh 'mvn test'
+      }
     }
 
-    triggers {
-         pollSCM('* * * * *')
-     }
-
-stages{
-        stage('Build'){
-            steps {
-                bat 'mvn clean package'
-            }
-            post {
-                success {
-                    echo 'Now Archiving starts here...'
-                    archiveArtifacts artifacts: '**/target/*.war'
-                }
-            }
-        }
-
-        stage ('Deployments'){
-            parallel{
-                stage ('Deploy to Staging environment'){
-                    steps {
-                                        sshagent(credentials: ['26c29081-8ed6-4b51-8da9-31ae6673ab62']) {
+    stage('Deploy') {
+      steps {
+        // Deploy your application (e.g., Docker, Kubernetes)
+        sh sshagent(credentials: ['27b86657-ba75-4b78-9ad6-8a9146bfbb3a']) {
                     sh 'ssh root@tomcat-server "sudo systemctl stop tomcat"'
-                    sh 'ssh root@tomcat-server "rm -rf /opt/tomcat/webapps/sample"'
-                    sh 'scp /opt/tomact/webapps/sample.war root@tomcat-server:/opt/tomcat/webapps'
-                    sh 'ssh root@tomcat-server "sudo systemctl start tomcat"
+                    sh 'ssh root@tomcat-server "rm -rf /opt/tomcat/webapps/SAMPLE"'
+                    sh 'scp /var/lib/jenkins/workspace/SAMPLE/target/webapp/webapp.war root@tomcat-server:/opt/tomcat/webapps'
+                    sh 'ssh root@tomcat-server "sudo systemctl start tomcat"'
 
-                    }
-                }
-
-           //     stage ("Deploy to Production environment"){
-           //        steps {
-           //             bat "echo y | pscp -i C:\\Users\\grvtr\\Desktop\\Project\\AlternativeFiles\\Redis-Key.ppk C:\\Users\\grvtr\\Desktop\\Project\\AlternativeFiles\\*.war ec2-user@${params.tomcat_prod}:/var/lib/tomcat7/webapps"
-                    }
-                }
-            }
-        }
+      }
     }
+
+    stage('Verify') {
+      steps {
+        // Perform additional verification or integration tests
+        sh 'curl http://your-app-url'
+      }
+    }
+
+    //stage('Deploy to Production') {
+      // Run this stage only if the previous stages were successful
+      when {
+        expression {
+          currentBuild.result == 'SUCCESS'
+        }
+      }
+
+      //steps {
+        // Deploy your application to production environment
+        //sh 'kubectl apply -f production-deployment.yaml'
+      }
+    }
+  }
+
+  //post {
+    //always {
+      // Archive your build artifacts
+      archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+    }
+
+    //success {
+      // Send email notification on successful build
+      //emailext body: 'The build was successful!', recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+    }
+
+    //failure {
+      // Send email notification on failed build
+      //emailext body: 'The build failed!', recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+    }
+  }
 }
