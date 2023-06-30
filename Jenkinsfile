@@ -27,6 +27,7 @@ pipeline {
                     sh 'ssh root@tomcat-server "rm -rf /opt/tomcat/webapps/SAMPLE"'
                     sh 'scp /var/lib/jenkins/workspace/SAMPLE/target/webapp/webapp.war root@tomcat-server:/opt/tomcat/webapps'
                     sh 'ssh root@tomcat-server "sudo systemctl start tomcat"'
+                    ssh -oStrictHostKeyChecking=no host
 
       }
     }
