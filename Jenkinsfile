@@ -19,7 +19,7 @@ pipeline {
       }
     }
 
-    stage('Deploy') {
+    stage('Deploy to Tomcat') {
       steps {
         // Deploy your application (e.g., Docker, Kubernetes)
         sh sshagent(credentials: ['27b86657-ba75-4b78-9ad6-8a9146bfbb3a']) {
