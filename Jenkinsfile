@@ -32,10 +32,10 @@ pipeline {
       }
     }
 
-    //stage('Verify') {
-      //steps {
-        // Perform additional verification or integration tests
-        //sh 'curl http://your-app-url'
+    stage('Verify') {
+      steps {
+         Perform additional verification or integration tests
+        sh 'curl http://13.233.85.150:8080/SAMPLE'
       }
     }
 
