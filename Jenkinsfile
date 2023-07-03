@@ -35,7 +35,7 @@ pipeline {
     stage('Verify') {
       steps {
          Perform additional verification or integration tests
-        sh 'curl http://13.233.85.150:8080/SAMPLE'
+        sh 'curl http://65.0.26.132:8080/'
       }
     }
 
