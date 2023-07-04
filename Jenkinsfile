@@ -4,10 +4,10 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        // Checkout source code from version control
+         Checkout source code from version control
         checkout scm
 
-        // Build your project (e.g., Maven, Gradle)
+         Build your project (e.g., Maven, Gradle)
         sh 'mvn clean package'
       }
     }
