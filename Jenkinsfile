@@ -51,10 +51,7 @@ pipeline {
         // Deploy your application to production environment
         //sh 'kubectl apply -f production-deployment.yaml'
       }
-    }
-  }
-
-  //post {
+   //post {
     //always {
       // Archive your build artifacts
       //archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
