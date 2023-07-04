@@ -66,5 +66,4 @@ pipeline {
       // Send email notification on failed build
       //emailext body: 'The build failed!', recipientProviders: [[$class: 'DevelopersRecipientProvider']]
     //}
-  }
 }
