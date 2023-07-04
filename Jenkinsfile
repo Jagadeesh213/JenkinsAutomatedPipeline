@@ -55,16 +55,16 @@ pipeline {
     //always {
       // Archive your build artifacts
       //archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
-    }
-
+   // }
+// }
     //success {
       // Send email notification on successful build
       //emailext body: 'The build was successful!', recipientProviders: [[$class: 'DevelopersRecipientProvider']]
-    }
+   // }
 
     //failure {
       // Send email notification on failed build
       //emailext body: 'The build failed!', recipientProviders: [[$class: 'DevelopersRecipientProvider']]
-    }
+    //}
   }
 }
