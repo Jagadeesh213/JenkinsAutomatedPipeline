@@ -47,8 +47,8 @@ pipeline {
         }
       }
     }
-      steps {
-         Deploy your application to production environment
+  //    steps {
+  //      Deploy your application to production environment
         //sh 'kubectl apply -f production-deployment.yaml'
       }
    post {
